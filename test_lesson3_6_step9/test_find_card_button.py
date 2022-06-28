@@ -10,4 +10,4 @@ def test_available_product(browser):
     browser.get(link)
     sleep(30)
     check_available = browser.find_elements(By.CSS_SELECTOR, '[class="btn btn-lg btn-primary btn-add-to-basket"]')
-    assert check_available, f"product is not available, status product is {check_available.text}"
+    assert check_available, f"product is not available"
