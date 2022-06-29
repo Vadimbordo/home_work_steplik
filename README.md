@@ -1,6 +1,6 @@
 # home_work_steplik
 
-## Run test
+## Run test_lesson3_6_step9
 
 Use this command to run a test with the selected language
 
