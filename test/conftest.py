@@ -4,6 +4,7 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
+
 def pytest_addoption(parser):
     parser.addoption('--browser_name',
                      action='store',
@@ -15,8 +16,9 @@ def pytest_addoption(parser):
                      help="Choose language, for example: 'en', 'ru'")
     parser.addoption('--headless',
                      action='store',
-                     default='true',
+                     default='false',
                      help="Open a browser invisible, without GUI is used by default")
+
 
 @pytest.fixture(scope="function")
 def browser(request):

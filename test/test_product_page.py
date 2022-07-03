@@ -1,3 +1,5 @@
+from time import sleep
+
 import pytest
 
 from pages.product_page import ProductPage
@@ -36,5 +38,6 @@ def test_guest_can_add_product_to_basket(browser, promo):
     Стоимость корзины совпадает с ценой товара.
     
     """
+    sleep(6000)
     product_page.check_success_message_add_to_cart()
     product_page.check_success_message_cost_price()

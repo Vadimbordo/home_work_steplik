@@ -1,7 +1,9 @@
 import math
-from selenium.common import NoSuchElementException, NoAlertPresentException
+from selenium.common import NoSuchElementException, NoAlertPresentException, TimeoutException
 # Remote используется для типизации объекта драйвера, это даёт возможность видеть методы
 from selenium.webdriver import Remote as RemoteWebDriver
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class BasePage:
@@ -13,10 +15,31 @@ class BasePage:
     def open(self):
         self.browser.get(self.url)
 
-    def is_element_present(self, how, what):
+    # проверка отображения элемента
+    def is_element_present(self, how_search, what_search):
         try:
-            self.browser.find_element(how, what)
-        except (NoSuchElementException):
+            self.browser.find_element(how_search, what_search)
+        except NoSuchElementException:
+            return False
+        return True
+
+    ## Проверка появления и исчезновения элемента
+
+    # Упадет, как только увидит искомый элемент в течении 4х секунд. Не появился: успех, тест зеленый.
+    def is_not_element_present(self, how_search, what_search, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout). \
+                until(expected_conditions.presence_of_element_located((how_search, what_search)))
+        except TimeoutException:
+            return True
+        return False
+
+    # будет ждать 4 секунды, пока элемент не исчезнет.
+    def is_disappeared(self, how_search, what_search, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout, 1, TimeoutException). \
+                until_not(expected_conditions.presence_of_element_located((how_search, what_search)))
+        except TimeoutException:
             return False
         return True
 

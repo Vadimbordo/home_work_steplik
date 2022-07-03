@@ -12,7 +12,8 @@ class ProductPage(BasePage):
     @check_func
     def check_success_message_add_to_cart(self):
         name_product = (self.browser.find_element(*ProductPageLocators.NAME_PRODUCT)).text
-        name_product_in_success_msg = (self.browser.find_element(*ProductPageLocators.SUCCESS_MESSAGE_ADD_PRODUCT_TO_CART)).text
+        name_product_in_success_msg = (self.browser.find_element(*ProductPageLocators.
+                                                                 SUCCESS_MESSAGE_ADD_PRODUCT_TO_CART)).text
         assert name_product == name_product_in_success_msg, \
             f'Наименование товара: "{name_product}" несоответствует ' \
             f'наименование товара в сообщении о добавлении в корзину: "{name_product_in_success_msg}"'
@@ -24,3 +25,11 @@ class ProductPage(BasePage):
         assert cost_in_message == product_cost, \
             f'Стоимость товара: "{cost_in_message}" несоответствует ' \
             f'стоимости товара в сообщении о добавлении в корзину: "{product_cost}" '
+
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Сообщение об успехе отображается, но не должно"
+
+    def should_disappeared(self):
+        assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Сообщение об успехе должно исчезнуть, но отображаться"
