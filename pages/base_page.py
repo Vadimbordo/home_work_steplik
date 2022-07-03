@@ -5,6 +5,8 @@ from selenium.webdriver import Remote as RemoteWebDriver
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
+# from pages.basket_page import BasketPage
+# from pages.basket_page import BasketPage
 from pages.locators import BasePageLocators
 
 
@@ -24,8 +26,11 @@ class BasePage:
     def should_be_login_link(self):
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
 
-    # проверка отображения элемента
+    def go_to_basket(self):
+        link = self.browser.find_element(*BasePageLocators.BASKET)
+        link.click()
 
+    # проверка отображения элемента
     def is_element_present(self, how_search, what_search):
         try:
             self.browser.find_element(how_search, what_search)
@@ -34,7 +39,6 @@ class BasePage:
         return True
 
     ## Проверка появления и исчезновения элемента
-
     # Упадет, как только увидит искомый элемент в течении 4х секунд. Не появился: успех, тест зеленый.
     def is_not_element_present(self, how_search, what_search, timeout=4):
         try:

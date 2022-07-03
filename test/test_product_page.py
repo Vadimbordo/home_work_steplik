@@ -1,4 +1,8 @@
+from time import sleep
+
 import pytest
+
+from pages.basket_page import BasketPage
 from pages.product_page import ProductPage
 
 promo = ["?promo=offer0",
@@ -52,3 +56,19 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     page.open()
     page.go_to_login_page()
     page.should_be_login_link()
+
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
+    link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/'
+    # Гость открывает главную страницу,
+    # переходим в корзину по кнопке в шапке сайта
+    product_page = ProductPage(browser, link)
+    product_page.open()
+    product_page.go_to_basket()
+    basket_page = BasketPage(browser, browser.current_url)
+
+    sleep(3)
+    # Ожидаем, что в корзине нет товаров
+    basket_page.no_product_in_basket()
+
+    # Ожидаем, что есть текст о том что корзина пуста
+    basket_page.have_text_about_basket_empty()
