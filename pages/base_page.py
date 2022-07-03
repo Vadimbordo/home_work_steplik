@@ -1,13 +1,11 @@
 import math
-from selenium.common import NoSuchElementException, NoAlertPresentException, TimeoutException
+
 # Remote используется для типизации объекта драйвера, это даёт возможность видеть методы
+from selenium.common import NoSuchElementException, NoAlertPresentException, TimeoutException
 from selenium.webdriver import Remote as RemoteWebDriver
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
-
-# from pages.basket_page import BasketPage
-# from pages.basket_page import BasketPage
-from pages.locators import BasePageLocators
+from .locators import BasePageLocators
 
 
 class BasePage:
@@ -70,3 +68,7 @@ class BasePage:
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                     " probably unauthorised user"

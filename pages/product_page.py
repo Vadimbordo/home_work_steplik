@@ -1,6 +1,6 @@
-from pytest_check import check_func
-from pages.base_page import BasePage
-from pages.locators import ProductPageLocators
+# from pytest_check import check_func   # планин для pytest, позволяет продолжать тест, если упал assert
+from .base_page import BasePage
+from .locators import ProductPageLocators
 
 
 class ProductPage(BasePage):
@@ -9,7 +9,7 @@ class ProductPage(BasePage):
         login_link = self.browser.find_element(*ProductPageLocators.ADD_PRODUCT_TO_CART_BUTTON)
         login_link.click()
 
-    @check_func
+    # @check_func
     def check_success_message_add_to_cart(self):
         name_product = (self.browser.find_element(*ProductPageLocators.NAME_PRODUCT)).text
         name_product_in_success_msg = (self.browser.find_element(*ProductPageLocators.
@@ -18,7 +18,7 @@ class ProductPage(BasePage):
             f'Наименование товара: "{name_product}" несоответствует ' \
             f'наименование товара в сообщении о добавлении в корзину: "{name_product_in_success_msg}"'
 
-    @check_func
+    # @check_func
     def check_success_message_cost_price(self):
         product_cost = (self.browser.find_element(*ProductPageLocators.PRODUCT_COST)).text
         cost_in_message = (self.browser.find_element(*ProductPageLocators.SUCCESS_MESSAGE_COST_PRDDUCT)).text

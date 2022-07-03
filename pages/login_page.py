@@ -1,5 +1,5 @@
-from pages.base_page import BasePage
-from pages.locators import LoginPageLocators
+from .base_page import BasePage
+from .locators import LoginPageLocators
 
 
 class LoginPage(BasePage):
@@ -21,3 +21,14 @@ class LoginPage(BasePage):
         # реализуйте проверку, что есть форма регистрации на странице
         register_form = self.is_element_present(*LoginPageLocators.REGISTER_FORM), "register form is not presented"
         assert register_form
+
+    def register_new_user(self, email, password):
+        self.go_to_login_page()
+        self.browser.find_element(*LoginPageLocators.FILED_EMAIL_FOR_REGISTRATION).send_keys(email)
+        self.browser.find_element(*LoginPageLocators.FILED_FIRST_PASSWORD_FOR_REGISTRATION).send_keys(password)
+        self.browser.find_element(*LoginPageLocators.FILED_SECOND_PASSWORD_FOR_REGISTRATION).send_keys(password)
+        self.browser.find_element(*LoginPageLocators.SUBMIT_BUTTON_FOR_REGISTRATION).click()
+        assert self.is_element_present(*LoginPageLocators.ACCOUNT_ICON), "Пользователь не создан"
+
+    def check_user_sing_in(self):
+        assert self.is_element_present(*LoginPageLocators.LOGOUT), "Пользователь не авторизован"
