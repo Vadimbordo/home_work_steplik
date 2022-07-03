@@ -5,6 +5,8 @@ from selenium.webdriver import Remote as RemoteWebDriver
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
+from pages.locators import BasePageLocators
+
 
 class BasePage:
     def __init__(self, browser: RemoteWebDriver, url, timeout=2):
@@ -15,7 +17,15 @@ class BasePage:
     def open(self):
         self.browser.get(self.url)
 
+    def go_to_login_page(self):
+        link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
+        link.click()
+
+    def should_be_login_link(self):
+        assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
+
     # проверка отображения элемента
+
     def is_element_present(self, how_search, what_search):
         try:
             self.browser.find_element(how_search, what_search)
